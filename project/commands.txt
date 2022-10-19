@@ -1,0 +1,55 @@
+from news.models import *
+
+user_1 = User.objects.create_user(username='Alex')
+user_2 = User.objects.create_user(username='Stiven')
+author_1 = Author.objects.create(authorUser=user_1)
+author_2 = Author.objects.create(authorUser=user_2)
+cat_1 = Category.objects.create(name='IT')
+cat_2 = Category.objects.create(name='ART')
+cat_3 = Category.objects.create(name='MUSIC')
+cat_4 = Category.objects.create(name='PSYHOLOGY')
+post_1 = Post.objects.create(author=author_2, categoryType='NW', title='latestnews', text='textnews')
+post_2 = Post.objects.create(author=author_1, categoryType='AR', title='newarticle', text='textarticle')
+post_3 = Post.objects.create(author=author_1, categoryType='AR', title='newarticle2', text='textarticle2')
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2))
+com_1 = Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='testtext')
+com_2 = Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='testtext2')
+com_3 = Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='testtext3')
+com_4 = Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='testtext4')
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=2).like()
+Author.objects.get(id=1)
+a = Author.objects.get(id=1)
+a.update_rating()
+a.ratingAuthor
+a = Author.objects.get(id=2)
+a.update_rating()
+a.ratingAuthor
+bestUser = Author.objects.order_by('-ratingAuthor')[:1]
+for i in a:
+    i.ratingAuthor
+    i.authorUser.username
+bestAR = Post.objects.filter(categoryType='AR').order_by('-rating')[:1]
+for i in bestAR:
+	i.dateCreation.strftime("%Y-%m-%d")
+	i.author.authorUser.username
+	i.rating
+	i.title
+	i.preview()
+	best_AR = i.id
+comment_Best_AR = Comment.objects.filter(commentPost=best_AR)
+for i in comment_Best_AR:
+	i.dateCreation.strftime("%Y-%m-%d")
+	i.commentUser.username
+	i.rating
+	i.text
+Post.objects.get(id=1).title
+Post.objects.get(id=2).title
+Comment.objects.get(id=1).rating
+
+
