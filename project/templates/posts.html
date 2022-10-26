@@ -1,0 +1,34 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block content %}
+    <h2>Все сообщения</h2>
+    <h3>на {{ time_now|date:'d M Y' }}</h3>
+    <hr>
+    {% if posts %}
+        <table>
+            <tr>
+                <td>Название</td>
+                <td>Дата публикации</td>
+                <td>Текст</td>
+            </tr>
+
+           {% for post in posts %}
+           <tr>
+               <td>{{ post.title }}</td>
+               <td>{{ post.dateCreation }}</td>
+               <td>{{ post.text|truncatechars:20|censor }}</td>
+           </tr>
+           {% endfor %}
+
+        </table> <!-- ... и таблицы -->
+    {% else %}
+       <!-- Если сообщений нет, говорим, что сообщений нет ;) -->
+       <h2>Сообщений нет!</h2>
+   {% endif %}
+{% endblock content %}
