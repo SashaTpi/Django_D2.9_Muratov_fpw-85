@@ -3,12 +3,12 @@ from django import template
 
 register = template.Library()
 
+censwords = ['Instagram', 'редиска', 'война', 'ЛГБТ']
+
 
 @register.filter()
 def censor(value):
-   censor_list = ['блин', 'редиска', 'скот', 'text']
-   if not isinstance(value, str):
-      raise ValueError('Фильтр цензурирования применяется только к переменным строкового типа')
-   for word in censor_list:
-      value = value.replace(word[1:],'*'*(len(word)-1))
-   return value
+    for i in censwords:
+        if i.find(value):
+            value = value.replace(i[1::], "*" * len(i))
+    return f'{value}'
