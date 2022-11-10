@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.shortcuts import reverse
 
 
 class Author(models.Model):
-    authorUser = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор') #verbos
-    ratingAuthor = models.SmallIntegerField(default=0, verbose_name='Рейтинг') #verbos
+    authorUser = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор')
+    ratingAuthor = models.SmallIntegerField(default=0, verbose_name='Рейтинг')
 
     def update_rating(self):
         postRat = self.post_set.aggregate(postRating=Sum('rating'))
@@ -68,14 +69,15 @@ class Post(models.Model):
         return self.text[0:123] + '...'
 
     def get_absolute_url(self):
-        return f'/posts/post/{self.id}' #id
+        return reverse('post_detail', args=[str(self.id)])
+        # return f'/posts/post/{self.id}'
 
     def __str__(self):
         return '{}'.format(self.title)
 
 
-    def date(self):
-        return f'{self.dateCreation.strftime("%d. %m. %Y")}'
+    # def date(self):
+    #     return f'{self.dateCreation.strftime("%d. %m. %Y")}'
 
     class Meta:
         verbose_name = 'Публикация'
