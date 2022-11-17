@@ -30,9 +30,10 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='subscriber', blank=True) #'category', blank=True)
 
     def __str__(self):
-        return f'{self.name}'
+        return self.name
 
     class Meta: #!!!!!
         verbose_name = 'Категория'
@@ -69,8 +70,11 @@ class Post(models.Model):
         return self.text[0:123] + '...'
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.id)])
-        # return f'/posts/post/{self.id}'
+        return reverse('post', args=[str(self.id)])
+        # return reverse('post_detail', args=[str(self.id)])
+
+    def message_subscriber(self):
+        return f'Новая статья - "{self.title}" в разделе "{self.postCategory.first()}" '
 
     def __str__(self):
         return '{}'.format(self.title)
