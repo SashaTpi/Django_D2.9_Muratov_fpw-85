@@ -1,16 +1,18 @@
+from celery import shared_task
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 
-from .models import Post, Category
+from .models import Post, Category, User
 import datetime as DT
 
 from datetime import datetime, timedelta
 from backports.zoneinfo import ZoneInfo
+from django.core.mail import send_mail
 
 
-MSC = datetime(2022, 1,  1,  tzinfo=ZoneInfo("Европа/Москва"))
+MSC = datetime(2022, 1,  1,  tzinfo=ZoneInfo("Europe/Moscow"))
 
-
+@shared_task
 def weekly_digest():
     categories = Category.objects.all()
     today = DT.datetime.today()
@@ -73,3 +75,16 @@ def weekly_digest():
             msg.send()
         else:
             continue
+
+@shared_task
+def post_now():
+    for cat_id in Post.objects.get(pk=id).postCategory.all():
+        users = Category.objects.filter(name=cat_id).values("subscribers")
+        for user_id in users:
+            send_mail(
+                subject=f"{Post.objects.get(pk=id).title}",
+                message=f"Привет, {User.objects.get(pk=user_id['subscribers']).username}. \n Новая статья в твоём любимом разделе! \n Заголовок : {Post.objects.get(pk=id).title} \n Текст : {Post.objects.get(pk=id).text[:50]} \n Ссылка на статью: http://127.0.0.1:8000/posts/{id}",
+                from_email='testpostnoname@yandex.ru',
+                recipient_list=[User.objects.get(pk=user_id['subscribers']).email]
+            )
+

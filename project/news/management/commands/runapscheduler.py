@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
         scheduler.add_job(
             my_job,
-            # trigger=CronTrigger(day_of_week='sat', hour=10),  # Еженедельная отправка по субботам в 10:00
+            # trigger=CronTrigger(day_of_week='sat', hour=10),
             trigger=CronTrigger(second="*/50"),
             id="my_job",
             max_instances=1,

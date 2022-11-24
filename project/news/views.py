@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
+
 class PostsList(ListView):
     model = Post
     ordering = '-dateCreation'
@@ -71,10 +72,10 @@ class PostCreate(CreateView, PermissionRequiredMixin):
     # model = Post
     permission_required = ('news.add_post',)
 
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        post.categoryType = 'NW'
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     post = form.save(commit=False)
+    #     post.categoryType = 'NW'
+    #     return super().form_valid(form)
 
 
 class PostUpdate(PermissionRequiredMixin, UpdateView):
@@ -159,3 +160,4 @@ def subscribe(request, pk):
     msg.send()
 
     return redirect(request.META.get('HTTP_REFERER'))
+

@@ -14,3 +14,4 @@ urlpatterns = [
    path('category/', CategorySubscribeView.as_view()),
    path('category/<int:pk>', subscribe_category, name='subscribe_category'),
 ]
+

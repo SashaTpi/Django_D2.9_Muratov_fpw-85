@@ -12,7 +12,6 @@ class Author(models.Model):
         postRat = self.post_set.aggregate(postRating=Sum('rating'))
         pRat = 0
         pRat += postRat.get('postRating')
-
         commentRat = self.authorUser.comment_set.aggregate(CommentRating=Sum('rating'))
         cRat = 0
         cRat += commentRat.get('commentRating')
@@ -55,7 +54,7 @@ class Post(models.Model):
     title = models.CharField(max_length=128, verbose_name='Заголовок')
     text = models.TextField(null=True, blank=True, verbose_name='Текст')
     rating = models.SmallIntegerField(default=0, verbose_name='Рейтинг')
-    # category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Категория')
+    #category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Категория')
 
 
     def like(self):

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fpages',
+    # 'news.apps.NewsConfig',
     'news',
     'django_filters',
     'sign',
@@ -163,13 +164,13 @@ STATICFILES_DIRS = [
 
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 # ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
@@ -186,3 +187,14 @@ EMAIL_HOST_PASSWORD = 'bvqytgqcxyngtphd'
 # EMAIL_HOST_PASSWORD = os.getenv('SecretPass')
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+# CELERY_BROKER_URL = 'redis://192.168.99.100'
+# CELERY_RESULT_BACKEND = 'redis://192.168.99.100'
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
